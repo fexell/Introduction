@@ -54,13 +54,16 @@ namespace Calculator {
             return int.Parse( input );
         }
 
-        static char IsValidOperator( string input ) {
-            Regex operatorRegex = new Regex( @"[\+\-\*\/]" );
+        static char ValidOperator( string input ) {
+            while( !Regex.IsMatch( input, @"[\+\-\*\/]" ) || !Char.TryParse( input, out Char value ) ) {
 
-            if( !operatorRegex.IsMatch( input ) ) {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine( "Input needs to be a valid operator (+, -, *, /). '{0}' given.", input );
                 Console.ResetColor();
+                Console.WriteLine();
+
+                Console.Write( "Enter operation (+, -, *, /): " );
+                input = Console.ReadLine();
             }
 
             return char.Parse( input );
@@ -77,7 +80,7 @@ namespace Calculator {
             number2 = GetIntInput( Console.ReadLine(), "Enter second number: " );
 
             Console.Write( "Enter operation (+, -, *, /): " );
-            operation = IsValidOperator( Console.ReadLine() );
+            operation = ValidOperator( Console.ReadLine() );
 
             double sum;
 
